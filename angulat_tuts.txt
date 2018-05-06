@@ -1,0 +1,103 @@
+Fundamental
+
+Angular là một nền tảng và framework để xây dựng ứng dụng client trong HTML và TypeScript. Angular bản thân nó được viết trong Type Script. Nó có lõi khởi tạo và tùy chọn chức năng như bộ thư viện Type Scripts để bạn thêm vào trong những ứng dụng
+
+Các blocks xây dựng cơ bản của một ứng dụng Agular là các NgModules, nó cung cấp một nội dung biên tập (compilation) cho components. NgModule thu thập các code liên quan bên trong những bộ chức năng; một ứng dụng Angular được định nghĩa bằng một bộ NgModules. Một ứng dụng luôn luôn có ít nhất một root module để kích hoạt bootstrapping (đưa cái gì đó vào trong hay ra ngoài dựa vào một nguồn lực sẵn có), và thông thường (typically) có rất nhiều những tính năng modules.
+
+- Components định nghĩa views, nó là một bộ elements screen để Angular có thể chọn (choose among) trong chúng và chỉnh sửa theo logic và dữ liệu chương trình của bạn
+
+- Components dùng services, nó cung cấp tính năng đặc biệt không trực tiếp liên quan đến views. Service cung cấp có thể được tiêm vào components như dependencies, tạo ra code của bạn, sử dụng lại và hiệu quả hơn.
+
+Cả components và services là những classes đơn giản, với các decorators để đánh dấu loại của chúng và cung cấp metadata để giao tiếp với Angular làm sao thể sử dụng chúng.
+
+- The metadata cho một component class liên kết (associated) nó với một template để định nghĩa một view. Một template thường (ordinary) kết hợp HTML với Angular "directives" và "binding markup" cho phép Angular chỉnh sửa HTML trước khi hiển thị nó
+
+- The metadata cho một service class cung cấp thông tin Angular cần và đủ để components truyền qua Dependency Injection (DI)
+
+Một components của ứng dụng thôn thường có rất nhiều views, đã được sắp xếp xếp tầng.
+
+Angualr cung cấp Router service để giúp bạn định nghĩa navigation path giữa các views. The router cung cấp khả năng sophisticated trong browser navigational.
+
+Modules
+
+Angular định nghĩa NgModule, nó khác và bổ sung (complements)  the JavaScript (ES2015) module. Một NgModule khai báo một nội dung biên tập cho một bộ của components để dành riêng cho (dedicated to) một application domain, một workflow, hoặc một closely related of capabilities (bộ khả năng liên kết chặt chẽ). Một NgModule có thể liên kết những components của nó với code liên quan, như services, tới các đơn vị chức năng (form functional units)
+
+Mỗi ứng dụng Angular có một root module, conventinally (thông thường) được đặt tên là AppModule, nó cung cấp cơ chế bootstraps để launches ứng dụng. Một ứng dụng thông thường chứa rất nhiều modules functional.
+
+Giống như JS modules. NgModules có thể thêm chứng năng từ NgModules khác, và cho phép sở hữu chức năng của chúng để mở rộng và sử dụng bởi NgModule khác. Lấy ví dụ, để dùng router service trong ứng dụng của bạn, bạn import Rotuer NgModule
+
+Tổ chức code của bạn thanh những những modules functional riêng biệt (distinct) giúp quản lý phát triển các ứng dụng riêng biệt, và trong thiết kế để sử dụng lại. Thêm vào đó, với công nghệ này bạn có lợi thế về lazy-loading - đó là, loading modules theo yêu cầu (on demand) - để thu nhỏ khối lượng code cần load ban đầu.
+
+Components
+
+Mỗi ứng dụng Angular có ít nhất một component, the root components là một component xếp tầng với page DOM. Mỗi component định nghĩa một class để chứa dữ liệu của ứng dụng và logic, và được liên kết với một HTML template để định nghĩa một view để hiển thị môi trường target.
+
+The @Component decorator xác định (identifies) class ngay lập tức dưới nó như một component, và cung cấp template và liên kết componen-specfic metadata.
+
+Lưu ý: Decorator là những function được chỉnh sửa JS classes. Angular định nghĩa một số decorator để kèm những loại metadata đặc biệt từ những classes, nên nó biết ý nghĩa những classes đó và chúng làm việc ntn.
+
+Templates, directives và data binding
+
+Một template kết hợp HTML với Angular markup để chỉnh sửa HTML elements trước khi chúng hiển thị. Template directives cung cấp chương trình logic, và binding markup kết nối ứng dụng dữ liệu của bạn cùng DOM
+
+- "Event binding" để ứng dụng của bạn phản hồi đầu vào người dùng để target enviroment bằng cách cập nhật dữ liệu ứng dụng của bạn
+
+- "Property binding" để bạn thêm vào những giá trị cái được tính toàn từ dữ liệu ứng dụng vào trong HTML
+
+Trước khi một view được hiển thị, Angular đánh giá những directives và xử lý binding syntax trong template để chỉnh sửa HTML element và DOM,
+thông qua data program và logic của bạn. Angualr hỗ trợ two-way binding, có nghĩa thay đổi trong DOM, như một người dùng chọn lựa, có thể phản ánh (refected) ngược lại dữ liệu chương trình của bạn.
+
+Templates của bạn có thể sử dụng "pipes" để cải thiện trải nghiệm người dùng bằng chuyển đổi (transform) dữ liệu hiển thị. Dùng pipes để hiển thị, lấy ví dụ, dates và dữ liệu tiền tệ trong các hiển thị địa phương của user. Angular cung cấp những pipes đã có (predefined) cho những chuyển đổi thông thường, và bạn có thể định nghĩa cho chính bạn.
+
+Services và dependency injection
+
+Dữ liệu và logic không liên quan đến đặc tả view, và cái bạn muốn chia sẻ thông qua các components, bạn tạo ra một "service" class. Một servie class định nghĩa ngay lập tức preceded (đi trước/đứng trước?) bởi @Injected decorator. The decoratior cung cấp metadata cho phép service của bạn "injected " vào trong component client như một dependency
+
+Dependency injection (or DI) để bạn giữ component classes lean và hiệu quả. Chúng không lấy data từ server, đánh giá đầu vào user, hoặc log trực tiếp đến console; chúng delegate như task đến services.
+
+Routing
+
+Một Angular Router NgModule cung câp một servies để bạn định nghĩa một navigation path giữa các "state" ứng dụng khác nhau và xem cấu trúc phân tầng trong ứng dụng của bạn. Nó được mô hình hóa trên quy ước của các browser quen thuộc.
+
+- Nhập URL trong address bar và browsers naviagtes đến page tương ứng (corresponding).
+
+- Click links lên page và browser navigates đến một page mới
+
+- Click browsers back và forward buttons và browser navigates backward và forward thông qua lịch sử của pages bạn đã seen
+
+The router maps URL - giống như path views thay vì các pages. Khi người dùng thực hiện (perform) một action, như clicking a link, nó sẽ load một trang mới trong browser, the router chặn (intercepts) hành vi của browsers, và show hoặc hide view hierachies.
+
+Nếu router xác định rằng state app hiện tại yêu cầu functionality cụ thể, và the module đó định nghĩa nó đã không được load, the router có thể lazy-load the module theo yêu cầu.
+
+The router phiên dịch (interprets) một link URL thông qua qua tắc navigation view's app của bạn và data state. Bạn có thể navigate đến views mới khi user clicks a butons, chọn từ một drop box, hoặc trong phản hổì kích thích từ một số nguồn khác. The Router logs activity trong browser's history journal, nên back and forward buttons một cách tốt nhất
+
+Để định nghĩa navigation rules, bạn liên kết "navigation paths" với components của bạn. Một path sử dụng một URL - giống như syntax để tích hợp dữ liệu chương trình của bạn, theo cách tương tự (in much the same way that) để template syntax tích hợp views của bạn với dữ liệu chương trình. Bạn có thể áp dụng program logic để chọn views nào để show or hide, để đáp lại user input và các quy tắc truy cập riêng bạn
+
+Các gì tiếp theo
+
+Bạn đã học cơ bản về các block xây dựng nên ứng dụng Angular. Diagram dưới đây chỉ ra các phần được liên kết với nhau ntn:
+
+https://angular.io/generated/images/guide/architecture/overview2.png
+
+*** Cùng với nhau, một component và template định nghĩa ANGUALR view:
+
+- Một decorator trên một class components thêm metadata, bao gồm một pointer để liên kết template.
+- Directives và binding markup trong một component's templates chỉnh sửa views dựa trên program data và logic
+
+*** The dependency injector cung cấp các services đến một components, như router service để bạn định nghĩa navigation giữa các views
+
+Mỗi subjects này được giới thiệu chi tiết hơn trong các trang dưới đây:
+
+Modules
+Components
+
+Templates
+Metadata
+Data binding
+Directives
+Pipes
+Services and dependency injection
+
+Lưu ý rằng code referenced trên những pages này đã có sẵn như live example: https://angular.io/generated/live-examples/architecture/stackblitz.html / download example: https://angular.io/generated/zips/architecture/architecture.zip
+
+Khi bạn quen thuộc với building block cơ bản, bạn có thể mở rộng chúng từ chi tiết trong tài liệu. Để học về nhiều tool hơn và những kĩ thuật đã có sẵn sẽ giúp bạn xây dựng và triển khai Angular Application. Hẹn gặp lại ở Bước tiếp theo: https://angular.io/guide/architecture-next-steps
