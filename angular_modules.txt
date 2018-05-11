@@ -1,0 +1,83 @@
+Giới thiệu modules
+
+https://angular.io/generated/images/guide/architecture/module.png
+
+Ứng dụng Angular là những modular và Angular sở hữu bản thân nó một hệ thống gọi là NgModules. Một NgModules là một container cho một khối gắn kết (cohesive) của code dành riêng (dedicated) cho từng ứng dụng, một workflow, hoặc một closely related of capabilities (bộ khả năng liên kết chặt chẽ). Nó có thể chứa những components, cung cấp services, và những code file khác, có phạm vị định nghĩa bên trong (the containing) NgModule. Nó có thể là những tính năng quan trọng để mở rộng từ NgModules khác và mở rộng chức năng cho người dùng bằng những NgModules khác.
+
+Mỗi Angular app có ít nhất một NgModules class, the root module  , cái thông thường (conventinally) gọi là AppModule và đặt trong (resides) file tên là app.module.ts. Bạn launch app bạn lên bằng bootstrapping the root NgModule.
+
+Trong khi một ứng dụng nhỏ có thể chỉ một NgModule. Hầu hết app có rất nhiều tính năng modules. The root NgModule cho một ứng dụng được đặt tên như vậy (so named) vì nó có thể bao gồm NgModules child trong cấu trúc phân tầng của bất kỳ mức nào (depth)
+
+NgModule metadata
+
+Một MgModule được định nghĩa như một class decorator với @NgModule. The @NgModule decorator là một function để lấy đối tượng đơn metadata, cả các thuộc tính mô tả module. Những propertise quan trọng nhất như sau: (as follows)
+
+- declarations - The components, directives và pipes thuộc về NgModule này
+
+- exports - những tập hợp declarations nên được hiển thị và sử dụng trong component templates của NgModules khác.
+
+- imports - Những modules khác hầu hết xuất những classes cần thiết bằng component templates khai báo trong NgModule này
+
+- providers - Tạo ra (creator) các services, NgModule này đóng góp (contributes) đến những services thu thập global; chúng có thể được truy cập trong tất cả các phần của ứng dụng (become to accesible in all part of the app) . (Bạn có thể đặc tả provider tại component level, nó thường làm thế hơn)
+
+- bootstrap - view ứng dụng chính, gọi root component, nó hosts tất cả app views khác. Chỉ root NgModule nên set thuộc tính bootstrap
+
+Đây là một định nghĩa root NgModule đơn giản:
+
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/playform-browser';
+
+@NgModule{
+	imports: [BrowserModule];
+	providers: [Logger];
+	declarations: [AppComponent],
+	exports: [AppComponent],
+	bootstrap: [AppComponent]
+}
+
+"exports" AppComponent chỉ để chỉ ra làm thế nào để xuất, nó không thực sự cần thiết trong ví dụ này. Một root NgModule không cần nguyên nhân để export bất cứ thứ gì bởi vì những modules khác không cần import root NgModule
+
+NgModules and components
+
+NgModules cung cấp một nội dung biên tập (compilation context) cho những component của chúng. Một root NgModule luôn có một root component để tạo trong bootstrap, nhưng bất kỳ NgModule nào có thể bao gồm bất kỳ sô lần thêm components nào, nó có thể được loaded thông qua router hoặc tạo thông qua template. The components phụ thuộc một NgModules chia sẻ nội dung biên tập
+
+https://angular.io/generated/images/guide/architecture/compilation-context.png
+
+Một components và templates của nó cùng nhau định nghĩa một view. Một component có thể chứa một view hierachy, nó cho phép bạn định nghĩa những khu vực phức tạp tùy ý (arbitrarily )  trong screen. Nó có thể tạo, chỉnh sửa và tiêu hủy như một đơn vị (unit) . Một view hierachy có thể kết hợp nhiều views đã định nghĩa trong components, nó phụ thuộc vào những NgModules khác nhau. Đây thường là những trường hợp đặc biệt cho thư viện UI.
+
+https://angular.io/generated/images/guide/architecture/view-hierarchy.png
+
+Khi bạn tạo một component, nó ràng buộc trực tiếp với một single view, goi là host view. Host view có thể là root của view hierachy, có có thể được nhúng nhiều views, nó là lượt host views của những components khác. Những components đó có thể cùng NgModule, hoặc có thể đã imported từ NgModules khác. Views trong tree có thể lồng trong nhiều mức.
+
+Cấu trúc phân tầng của views là key factor để Angular tìm được (detects) và phản hồi sự thay đổi DOM và app data
+
+NgModules và JavaScript modules
+
+Hệ thống NgModules khác với hệ thống module JS (ES2015) về quản lý thu thập (managing collections) của đối tượng JS. Đây là 2 hệ thống khác nhau và bổ sung (complementary) nhau. Bạn có thể dùng cả 2 để viết apps.
+
+Trong JS mỗi file là một module và tất cả đối tượng định nghĩa trong file phụ thuộc vào module. Module khai báo những đối tượng để public bằng đánh dấu chúng với "export" key word. Những JS modules khác sử dụng statements để truy cập đối tượn pbulic từ những modules khác
+
+import {NgModule} from '@angular/core';
+import {AppComponent} from './app.component';
+
+export class AppModule { }
+
+Thư viện Angular
+
+https://angular.io/generated/images/guide/architecture/library-module.png
+
+Con tàu Angular thu thập tất cả JS modules. Bạn có thể nghĩ chúng như một thư viện modules. Mỗi thư viện Angular đặt tên với bắt đầu @angular prefix. Cài đặt chúng với npm package manager và import parts của chúng với JS import cú pháp (statements).
+
+Lấy ví dụ, import Component của Angulartừ @angular/core library như thế này:
+
+import {Component} from '@angular/core';
+
+Bạn cũng có thể import NgModules từ Angualr library sử dụng JS cú pháp import (statement):
+
+import {BrowserModule} from '@angular/platform-browser';
+
+Trong ví dụ của simple root module bên trên, module ứng dụng cần materials từ trong BrowserModule. Để truy cập materials đó, thêm nó đến @NgModule metadata "import" như thế này: 
+
+imports: [BrowserModule],
+
+Trong cách này bạn sử dụng cả Angualr và hệ thống JS modules cùng với nhau. Mặc dù nó dễ nhầm lẫn giữa 2 hệ thống, cái chia sẻ từ khóa của of "imports" and "exports", bạn sẽ trở nên quen thuộc với nội dung khác nhau này trong khi sử dụng chúng.

@@ -1,0 +1,119 @@
+Services là một danh mục rộng bao gồm bất kỳ dữ liệu nào ( a broad category encompassing any value function), hoặc tính năng một app cần. Một services là một class thông thường với một narrow, mục đích xác định rõ ràng (well-defined purpose). Nó nên làm nên làm những thứ cụ thể và làm tốt (do it well).
+
+Angular phân biệt giữa các thành phần (distinguishes components) từ services để tăng cường tính modularity và reuseability.
+
+- bằng cách tách view-related functionality của một components từ những loại khác nhau trong quy trình, bạn có thể tạo các classes component lean và efficent. Lý tưởng là, một job component được kích hoạt theo user experience và ko gì hơn. Nó nên được biểu diễn những thuộc tính và phương thức cho data binding, để gián tiếp giữa view (xuất bởi template) và ứng dụng logic (cái thường bao gồm một số khái niệm về mô hình )
+- một component nên cần định nghĩa những thứ như làm sao để lấy data từ server, đánh giá user input, hoặc log trực tiếp đến console. Thay vào đó, nó có thể delegate những task tương tự đến services. Bằng cách định nghĩa loại task quy trình trong injectable services class, bạn làm nó available đến bất kỳ component nào. Bạn có thể tạo ứng dụng app của bạn đáp ứng tốt hơn bằng injecting những provider khác nhau của service giống nhau, như thích hợp trong các hoàn cảnh # nhau (as approiate in difference circumstances)
+
+Ví dụ service:
+
+Đây là một ví dụ của service class để logs đến browser console:
+
+src/app/logger.service.ts (class)
+
+export class Logger{
+	log(msg: any){
+		console.log(msg);
+	}
+	error(msg: any){
+		console.error(msg);
+	}
+	warn(msg: any){
+		console.warn(msg);
+	}
+}
+
+Services có thể dựa những servives khác nhau. Lấy ví dụ, đây là một HeroService, nó dựa vào 
+
+"Logger service", 
+
+và cũng sử dụng
+
+"backendService"
+
+để lấy heroes. Service đó bật lên dựa vào
+
+"HttpClient services"
+
+để lấy dữ liệu async từ server.
+
+src/app/hero.service.ts (class)
+
+export class HeroService {
+	private heroes: Hero[] = [];
+
+	constructor(
+		private backend: BackendService
+		private logger: Logger {}
+
+		getHeroes(){
+			this.backend.getAll(Hero).then(
+				(heroes: Hero[]) => {
+					this.logger.log(`Fetched ${heroes.length} heroes.`);
+					this.heroes.push(...heroes);
+				}
+			)
+			return this.heroes;
+		}
+	)
+}
+
+Dependency injection
+
+https://angular.io/generated/images/guide/architecture/dependency-injection.png
+
+Components sử dụng (consume: tiêu thụ) services; đó là bạn có thể inject một service vào trong một component, mang component truy cập đến service class.
+
+Để định nghĩa một class như service trong Angular, sử dụng @Injectable decorator để cung cấp metadata cho phép Angular inject nó vào trong component như dependency
+
+Tương tự, sử dụng @Injectable decorator để biểu thị một component hoặc class khác (giống như service khác, một pipe hoặc một NgModule) có một dependency. Một dependency không cần thiết phải có service - nó có thể là một function, lấy ví dụ, một value.
+
+DI có dính dáng (wired to) đến Angular framework và sử dụng mọi nơi để cung cấp component mới với những services hoặc những thứ khác chúng cần.
+
+- Injector là cơ chế chính. Bạn không cần thiết tạo một Angular injector. Angular tạo một ứng dụng injector cho bạn trong khi boostrap process.
+
+- The injector bảo trì một container của các đối tượng dependency, các instances này có được tạo sẵn, và injector dùng lại chúng nếu có thể
+
+- Một provider là một giấy phép (recipe) để tạo một dependency. Cho một services, đây là service class thông thường của chính nó. Cho bất kỳ dependency nào, bạn cần trong app của bạn, bạn phải đăng ký một provider với injector app, nên injector có thể sử dụng nó để tạo các đối tượng mới.
+
+Khi Angular tạo một đối tượng mới của một class component, nó xác định các services hoặc những dependency khác nhau, mà component cần, bằng cách xem xét các loại của constructor parameters. Lấy ví dụ, constructor của HeroListComponent cần một HeroService:
+
+src/app/hero-list.component.ts (constructor)
+
+constructor(private service: HeroService) { }
+
+Khi Angular phát hiện (discover) ra components dựa vào các services, trước tiên nó kiểm tra nếu injector đã có sẵn bất kỳ các đối tượng của services đó hay chưa. Nếu một đối tượng yêu cầu service chưa tồn tại, Injector tạo ra một cái, sử dụng đăng ký provider, và thêm nó đến injector trước khi trả về service tới Angular.
+
+Khi tất cả services đã được yêu cầu được xử lý và trả về. Angular có thể gọi component's constructor với những services đó như arguments.
+
+Quy trình HeroService injection sẽ trông nt này:
+
+Injector : Service A | Hero Service | Service C | Service D
+
+"Hero Service" được inject vào -> 
+
+Component: constructor(HeroService)
+
+Providing Services :
+
+Bạn phải đăng ký ít nhất 1 provider của bất kỳ service bạn sẽ dùng. Bạn có thể đăng ký provider trong modules hoặc trong components.
+
+- Khi bạn thêm tất cả providers đến root modules, những đối tượng giống nhau của service có sẵn đến tất cả components trong ứng dụng
+
+src/app/app.module.ts (module providers)
+
+providers: [
+	BackendService,
+	HeroService,
+	Logger
+],
+
+- Khi bạn đăng ký provider tại component level, bạn lấy đối tượng mới của service với mỗi đối tượng mới của component đó. Tại component level, đăng ký một provider service trong thuộc tính provider của @Component metadata:
+
+src/app/hero-list.component.ts (component providers)
+
+@Component({
+	selector: 'app-hero-list',
+	templateUrl: './hero-list.component.html',
+	providers: [HeroService]
+})

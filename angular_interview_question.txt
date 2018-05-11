@@ -1,0 +1,173 @@
+1. Angular là gì?
+
+AngularJS là một framework JS được dùng để tạo single web page app. Nó cho phép bạn sử dụng HTML như templates languages và cho phép bạn mở rộng HTML syntax để diễn giải ứng dụng của bạn rõ ràng.
+
+2. Giải thích tính năng của AngularJS
+
+1 - Scope
+2 - Controller
+3 - Model
+4 - View
+5 - Services
+6 - Data Binding
+7 - Directive
+8 - Filters
+9 - Testable
+
+3. Giải thích scope của AngularJS
+
+Scope đề cập đến mô hình ứng dụng, nó hoạt động như kết nốt giữa controller và view. Scopes được sắp xếp trong cấu trúc phân tầng và cấu trúc impersonate (đóng vai?) the DOM của app. Nó có thể xem expression và propagate events.
+
+4. Giải thích services trong AngularJS?
+
+Trong AngularJS services là đối tượng xương sống hoặc là những function được dùng để thực hiện (carry out - gánh vác) những task đặc biệt. Nó nắm giữ một số business logic và những function này có thể được gọi như controller, directive, filters và hơn thế.
+
+5. Giải thích Angular expression? Giải thích những khác nhau chính giữa angular expression và JS expression
+
+Giống như JS, Angular expressions là những đoạn mã (code snippets) thường được thay thế trong binding như {{expression}}
+
+Khác biệt chính:
+
+- Về nội dung: Trong Angular, expressions được đánh giá dựa vào scope object, trong khi JS expressions được đánh giá dựa vào global window.
+
+- Forgiving: trong Angualr expression evaluation is forgiving null and undefined, trong khi JS các thuộc tính undefined xuất ra TypeErrors hoặc ReferenceError.
+
+- Không kiểm soát luồng cú pháp: loops, conditionals hoặc exceptions không thể dùng trong angular expression
+
+- Filters: Để format data trước khi hiển thị bạn có thể dùng filters
+
+6. Với options trên page load làm thế nào bạn có thể khởi tạo một select box
+
+<div ng-controller="apps/dashboard/account" ng-switch="" on="!!accounts" ng-init="loadData"></div>
+7. Giải thích directives là gì? Đề cập một vài cách dùng thông thường directives trong AngularJS app?
+
+một directives là những thứ với syntax mới, chúng như markers trên DOM, để đính kèm với một hành vi đặc biệt của nó. Trong bất kỳ Angular app nào, directives là những components quan trọng nhất.
+
+Một số directives thông thường: ng-model, ng-App, ng-bind, ng-repeat, ng-show etc
+
+8. Đề cập điểm mạnh khi dùng AngularJS
+
+- Hỗ trợ mô hình MVC
+- Có thể dùng 2 chiều data binding AngularJS
+- Nó có định nghĩa trên mỗi (per-define) validation forms
+- Nó hỗ trợ cả client servers communocation
+- Nó hỗ trợ animations
+
+9. Giải thích Angular JS Router?
+
+Angular JS Router cho phép bạn tạo URLs khác nhau từ nội dung khác nhau trong ứng dụng. Những URLs khác nhau cho nội dung khác nhau cho phép người dùng bookmark URLs đến nội dung đặc biệt đó. Mỗi đánh dấu URL như vậy (each such bookmarkable) được gọi là route
+
+Một dữ liệu trong AngularJS là một đối tượng đơn. Nó có thể là một số, string hoặc JS object. Những dữ liệu thường (typically) được dùng như cấu hình tiêm đến factories, servies hoặc controller. Một dữ liệu nên thuộc về AngularJS module.
+
+Việc injecting một value vào một controller AngularJS function được hoàn thành bằng cách thêm một parameter cùng tên như value.
+
+10. Giải thích data biding trong JS
+
+tự động bất đồng bộ của data giữa model và view component được giới thiệu là data binding trong AngularJS. Đây là hai cách của data binding
+
+1. Khai thác dữ liệu trong hệ thống template cổ 
+điển
+2. Data binding trong angular templates
+
+11. Điều gì làm cho AngularJS tốt hơn?
+
+- Registering Callbacks: Ở đây khoogn cần register callback. Điều này làm cho code của bạn đơn giản và dễ debug hơn
+- Kiểm soát HTML DOM theo chương trình (programmatically): Tất cả ứng dụng được tạo sử dụng Angular không bao giờ phải thực hiện (maniplulate) DOM mặc dù nó có thể làm nếu được yêu cầu
+- Chuyển đổi (transfer) data đến và đi từ UI: AngularJS giúp loại trừ (eliminate) hầu hết tất cả boilerplate như validating form, hiển thị validation errors, trả về một internal model và hơn thế nữa nó xảy ra do luồng dữ liệu (occur due to flow or marshalling data)
+- Không khởi tạo code (initilization) code: Với Angular JS bạn có thể boostrap ứng dụng của bạn dễ dàng dùng services, để tự động injected vào trong ứng dụng như dependency injection style
+
+12. Giải thích string thêm vào (interpolation) trong Angular?
+
+Trong Angular.js trình biên dịch trong quá trình biên dịch (the compiler during the compilation) xử lý cho kết quả phù hợp text và những thuộc tính dùng servie thêm vào để thấy nếu chúng tồn tại trong embeded expression. Như một phần của chu trình bình thường những expressions này được cập nhật và registed như watches.
+
+13. Đề cập các bước cho quy trình biên dịch xảy ra ở HTML?
+
+Quy trình biên dịch của HTML xảy theo các cách sau:
+
+- Sử dụng chuẩn browser API , đầu tiên HTML được parsed vào DOM
+
+- Gọi đến $compile() method, biên dịch DOM được thực hiện. Phương thức đi đến DOM và matches the directives.
+
+- Link template với scope bằng gọi linking function trả về từ bước trước đó.
+
+14. Giải thích directive là gì và đề cập sự khác nhau các loại Directives
+
+Trong khi trình biên dịch xử lý khi các cấu trúc đặc biệt HTML bắt gặp một behaviour hoặc function được triggerd, function này được xem như (referred) directive. Nó được xử lý khi biên dịch encouters (gặp) nó trong DOM.
+
+Các loại khác nhue của directives là:
+
+- Element directives
+- Attribute directives
+- CSS class directive
+- Comment directive
+
+15. Giải thích linking function và các loại linking function
+
+Link kết hợp những directives với scope và produce một live view. Để registering DOM listeners như cập nhật DOM, link function được phản hồi. Sau khi template cloned nó được thực thi.
+
+- Pre-link function: được thực hiện trước khi child element được liên kết. Nó không xem xét như một cách an toàn cho DOM transformation
+- Post link function: được thực hiện sau khi child elements được liên kết. Nó an toàn  để DOM transformation bằng post-linking function
+
+16. Giải thích injector là gì?
+
+Injector là một services locator. Nó được dùng để lấy đối tượng khởi tạo như định nghĩa bởi provider, khởi tạo types, gọi methods và load modules. Ở đây một single injector trên 1 app Angular, nó giúp tìm 1 object khời tạo bằng tên của nó
+
+17. Giải thích khác nhau giữa link và compile trong Angular.js?
+
+Compile function: được dùng cho tempalte DOM thao tác và thu thập tất cả các directives
+Link function: được dùng cho DOM listeners cũng như khởi tạo DOM manipulation. Nó được thực thi khi template được cloned.
+
+18. Giải thích factory method của Angular?
+
+Nhằm tạo directive, factory method được sử dụng. Nó chỉ gọi 1 lần, khi trình biên dịch matches với directive ở lần đầu tiên. Bằng cách sử dụng $injector.invoke factory method được gọi
+
+19. Styling form nào được ngModel thêm vào CSS classes?
+
+ngModel thêm vào những CSS Classes này cho phép styling form để điều khiển:
+
+- ng-valid
+- ng-invalid
+- ng-pristine
+- ng-dirty
+
+20. Đặc tính "scope"?
+
+- Quan sát (observer) model thay đổi scopes cũng cấp APIs ($watch)
+- Để truyền (propagate) bất cứ model thay đổi thông qua hệ thống vào trong view từ bên ngoài 
+Angular
+- Một scope kế thừa thuộc tính từ scope parent của nó, trong khi cung cấp truy cập đến thuộc tính shared model, scopes có thể lồng trong component đơn (isolate)
+- Scope cung cấp nội dung dựa vào (provide context against) đánh giá expression
+
+21. DI (Dependency Injection) là gì và làm ntn 1 oject hoặc function giữ (hold) dependencies của nó
+
+DI là một mô hình thiết kế software để xử lý làm sao code giữ được dependencies của nó. Để lấy những elements của app, những elements này được yêu cầu để cấu hình khi module được load, hành động "config" được dùng dependency injection.
+
+Có những cách để giữ dependencies của nó gồm:
+- Thông thường sử dụng new operator, dependency có thể được tạo
+- Bằng cách dẫn (referring) đến một biến global, dependency có thể tìm thấy
+- Dependency có thể nhận được tại nơi nó được yêu cầu.
+
+22. Lợi ích khi dùng Angular?
+
+- Hỗ trợ data-binding 2 chiều
+- Hỗ trợ MVC
+- Hỗ trợ static template và angular template
+- Có thể thêm custom directive
+- Hỗ trợ REST full services
+- Hỗ trợ form validations
+- Hỗ trợ cả client + server communication
+- Hỗ trợ Dependency Injection
+- Áp dụng animations
+- Event Handlers
+
+23. Giải thích ý tưởng scope phân tầng? Có bao nhiêu scope có thể có trong 1 app?
+
+Mỗi angular app bao gồm (consist) một root scope như có thể có nhiều child scopes. Như một child controller và những directives tạo child scopes mới, app có thể có nhiều scopes. Khi một scopes được hình thành (formed) hoặc được tạo chúng đc thêm như children của scope parent. Giống như DOM, chúng cũng tạo cấu trúc phân tầng.
+
+24. Giải thích sự khác biệt AngularJS và backbone.js?
+
+AngularJS biên dịch chức năng của hầu hết thư viện thứ 3, nó hỗ trợ chức năng độc lập yêu cầu để develop HTML5 App. Trong khi backbones làm việc của nó một cách độc lập
+
+25. Ai tạo ra AngularJS
+
+Misko Hevery và Adam Abrons. By Google

@@ -1,0 +1,204 @@
+Giới thiệu components
+
+Một components controls một patch của screen gọi là một view. Lấy ví dụ, những component độc lập định nghĩa và kiểm soát mỗi views từ Tutorial:
+
+- The app roots với navigations links.
+- Danh sách các heroes
+- Hero editor
+
+Bạn định nghĩa một component's app logic - cái nó hỗ trợ view - bên trong class. Class tương tác với view thông qua API của các thuộc tính và methods.
+
+Lấy ví dụ, the HeroListComponent có một thuộc tính heroes, nó trả về một mảng các heroes, nơi nó thu được (accquires) từ một services. HeroListComponent cũng có một phương thức selectHero để tạo một thuộc tính selectHero khi user clicks để chọn hero từ list đó.
+
+src/app/hero-list.component.ts (class)
+
+export class HeroListComponent implements OnInit{
+	heroes: Hero[];
+	selectedHero: Hero;
+}
+
+constructor(privatye service: HeroService){}
+
+ngOnInit(){
+	this.heroes = this.service.getHeroes();
+}
+selectHero(hero: hero) {this.selectedHero = hero}
+
+}
+
+Angular tạo, cập nhật và hủy component như user muốn thông qua application. Ứng dụng của bạn có thể lấy action tại mỗi thời điểm trong lifecycle thông qua tùy chọn lifecycle hooks, như ngOnInit().
+
+Component metadata
+
+https://angular.io/generated/images/guide/architecture/metadata.png
+
+The @Component decorator xác định class ngay lập tức dưới nó như một class component, và đặc tả metadata của nó. Trong ví dụ code dưới đây, bạn có thể thấy HeroListComponent chỉ như 1 class, không có notation (ký hiệu) Angular đặc biệt nào hoặc syntax tại tất cả. Nó không phải là một component cho đến khi bạn đánh dâu nó như thế này @Component.
+
+The metadata cho một component cho Angular biết nơi nào lấy building block chính nó cần để tạo hiển thị component và view của nó. Trong thực tế, nó liên kết một "template" với component, hoặc trực tiếp với inline code hoặc referece. Cùng với nhau, component và templates của nó mô tả một view.
+
+Thêm vào đó để chứa và trỏ đến template, @Component metadata cấu hình, lấy ví dụ, component có thể referenced in HTML như thế nào và các services nào được yêu cầu.
+
+Đây là ví dụ cơ bản metadata cho HeroListComponent: 
+
+@Component({
+	selector: 'app-hero-list',
+	templateUrl: './hero-list.component.html',
+	providers: [HeroService]
+})
+
+export class HeroListComponent implements OnInit{
+	/* ... */
+}
+
+Ví dụ này chỉ ra những tùy chọn cấu hình hữu dụng nhất @Component
+
+- selector: một CSS selector cho Angular biết tạo và thêm một đối tượng (instance) của component này bất cứ nơi nào nó tìm tag tương ứng (corresponding) trong template HTML. Lấy ví dụ, nếu một ứng dụng HTML chứa <app-hero-list></app-hero-list>, thì Angular thêm vào một đối tượng của HeroListComponent view giữa những tag đó.
+
+- templateUrl: Địa chỉ Module liên kết của template component HTML này. Thay vì, bạn có thể cung cấp HTML template inline, như dữ liệu của template property. Template này định nghĩa host view của component
+
+- provider: một mảng DI cung cấp cho những dịch vụ để component yêu cầu. Lấy ví dụ, nó cho Angular biết cấu trúc yêu cầu một đối tượng HeroServcie để lấy danh sách heroes để hiển thị
+
+Templates và views
+
+Bạn định nghĩa một component's view với template đồng hành của nó. một template là một form của HTML để nói Angular làm sao để xuất component.
+
+Views thông thường sắp xếp phân tầng, cho phép bạn chỉnh sửa hoặc chỉ và ẩn entire UI sections hoặc pages như một unit. The template ngay lập tức liên kết với 1 component định nghĩa host view của components. Component có thể định nghĩa một view phân tầng, nó chứa views đc được nhúng vào, hosted bởi những components khác.
+
+https://angular.io/generated/images/guide/architecture/component-tree.png
+
+Một view phân tầng có thể bao gồm views từ những components trong NgModule giống nhau, nhưng nó cũng có thể (và thường xuyên xảy ra) bao gồm views từ những components nơi định nghĩa trong NgModules khác
+
+Template syntax
+
+Một template giống như regular HTML, ngoại trừ nó cũng chứa Angular template syntax, nó thay thế HTMl dựa vào ứng dụng logic của app, state of app và DOM data, pipes để chuyển đổi data trước khi nó được hiển thị, và directives để áp dụng app logic đến nơi được hiển thị.
+
+Lấy ví dụ, đây là một template cho Tutorial's HeroListComponent:
+
+src/app/hero-list.component.html
+
+<h2>Hero List</h2>
+
+<p><i>Pick a hero from the list</i></p>
+<ul>
+	<li *ngFor="let hero of heroes" (click)="selectHero(hero)">
+		{{hero.name}}
+	</li>
+</ul>
+
+<app-hero-detail *ngIf="selectedHero" [hero]="selectedHero">
+</app-hero-detail>
+
+Template này sử dụng HTML elements như <h2> và <p>, cũng bao gồm Angular template-syntax elements, *ngFor, {{hero.name}}, (click), [hero] và <app-hero-detail>. Template-syntax element cho Angular biết xuất HTML ra screen như thế nào, sử dụng program logic và data.
+
+- The *ngFor directive cho Angular biết tương tác trên một list
+- The {{here.name}}, (click) và [hero] kết nối program data đến và đi (to and from) từ DOM, phản hồi lại user input. Xem chi tiết về data binding: https://angular.io/guide/architecture-components#data-binding
+- The <app-hero-detail> tag trong ví dụ là một element để biểu thị một component mới, HeroDetailComponent. The HeroDetailComponent (code không có) là một component con của HeroListComponent, nó định nghĩa Hero-detail view. Thông báo làm như nào custom component như hỗn hợp liền mạch (mix seamlessly) với HTML native trong cùng layouts
+
+Data binding
+
+Nếu không có framework, bạn sẽ chịu trách nhiệm pushing data values bên trong HTML kiểm soát và bật (turning) phản hồi user vào trong các actions và cập nhật dữ liệu. Viết push/pull bằng tay chán lắm (is tedious), dễ bị lỗi (error-prone), và ác mộng để đọc như bất kỳ lập trình viên jQuery nào có thể chứng thực (attest)
+
+Angular hỗ trợ data binding hai chiều, một cơ chế để phối hợp giữa các phần (coordinating parts) của template với các parts của component. Thên binding đánh dấu đến template HTML để cho Angular biết kết nói 2 phần như thế nào (tell Angular how to connect both sides)
+
+Diagram dưới đây chỉ ra 4 forms của data binding markup. Mỗi form có một direction - đến the DOM, từ DOM, hoặc cả hai directions.
+
+https://angular.io/generated/images/guide/architecture/databinding.png
+
+DOM <- nhận value 			COMPONENT
+	{{values}}
+	<-
+	value chứa trong property
+	propert="value"
+	->
+	xử lý event về
+	(event)="handler"
+	<->
+	tất cả chỉ cần ng-model
+	[(ng-model)]="property"
+
+Ví dụ này từ HeroListComponent template sử dụng 3 forms này:
+
+src/app/hero-list.component.html(binding)
+
+<li>{{hero.name}}</li>
+<app-hero-detail [hero]="selectedHero"></app-hero-detail>
+<li (click)="selectHero(hero)"></li>
+
+- The {{hero.name}} interpolation(thêm vào) hiển thị component's hero.name thuộc tính value bên trong <li> element.
+
+- The [hero] property binding lấy value của selectedHero từ parent HeroListComponent đến thuộc tính "hero" của child HeroDetailComponent
+
+- The (click) event binding gọi component's selectHero method khi user chọn một hero's name.
+
+Two-way binding là một form dạng thứ 4 kết hợp thuộc tính và event binding trong một notation single. Đây là một ví dụ từ HeroDetailComponent template để sử dụng two-way data binding với ngModel directive:
+
+src/app/hero-detail.component.html(ngModel)
+
+input[(ngModel)]="hero.name"
+
+trong two-way binding, một luồng data thuộc tính dữ liệu đến input box từ component như property binding. Sự thay đổi của người dùng cũng quay trở lại component, tạo lại (resetting) thuộc tính dữ liệu mới nhất, như với event binding.
+
+Quy trình Angular tất cả dữ liệu binding trên mỗi JS event cycle, từ root của app component tree thông qua tất cả components child.
+
+template -> component (bằng event binding)
+component -> template (bằng property binding)
+
+giữa là metadata
+
+Data binding tạo ra một quy tắc quan trọng trong communicate giữa template và component của nó, và cũng quan trọng communicate giữa parent và child components.
+
+parent component -> child component nằm trong parent template (bằng property binding)
+parent component <- child component nằm trong parent template (bằng event binding)
+
+Pipes
+
+Angualar pipes để bạn khởi tạo display-value chuyển đổi trong template HTMl của bạn. Một class với @Pipes decorator định nghĩa một function để chuyển đổi dữ liệu đầu vào đến dữ liệu đầu ra để hiển thị trong 1 view.
+
+Angular định nghĩa những pipes khác nhau, như date pipes và currency pipel cho một complete list, xem pipes API list https://angular.io/api?type=pipe. Bạn có thể định nghĩa new pipes mới.
+
+Để đặc tả một value chuyển đổi trong một HTML template, sử dụng pipe operator (|):
+
+{{interpolated_value | pipe_name}}
+
+Bạn có thể xâu chuỗi pipes, gửi đầu ra của một pipe function để chuyển đổi bằng pipe function khác. Một pipe có thể lấy những arguments để kiểm soát nó thực thi chuyển đổi như thế nào. Lấy ví dụ, bạn có thể chuyển mong muốn format thành date pipe:
+
+<!-- Default format: output 'Jun 15, 2015'-->
+<p>Today is {{today | date}}</p>
+
+<!-- fullDate format: output 'Monday, June 15, 2015'-->
+<p>The date is {{today | date:'fullDate'}</p>
+
+<!-- shortTime format: output '9:43 AM'-->
+<p>The time is {{today | date: 'shortTime'}}</p>
+
+Directives: https://angular.io/generated/images/guide/architecture/directive.png
+
+Angular templates là động. Khi Angular renders chúng, nó chuyển đổi DOM theo (according to) chỉ dẫn đưa ra bởi directives. Một directive là một class với một @Directive decorator.
+
+Một component là một về mặt kĩ thuật (technically) là một directive - nhưng componet rất khác biệt và trung tâm từ app Angular, nó được Angular định nghĩa @Component decorator, nó mở rộng the @Directive decorator với tính năng hướng template (template-oriented).
+
+Ở đây có hai loại directive bên cạnh components: structural và attribute directives. Như các components, metadata cho 1 directive liên kết class với selector để bạn dùng chèn nó vào HTML. Trong templates, directives thường xuất hiện bên trong 1 element tag như các thuộc tính, hoặc bằng tên hoặc như target của một assignment hoặc một binding
+
+Structral directives
+
+Structral directives thay thế layout bằng cách thêm, loại bỏ và thay thế elements trong DOM. Lấy ví dụ templates sử dụng 2 built-in structural directives để thêm application logic đến làm cách nào view được xuất
+
+src/app/hero-list.component.ts(structural)
+<li *ngFor="let hero of heroes"></li>
+<app-hero-detail *ngIf="selectedHero"></app-hero-detail>
+
+- *ngFor là một thay thế; nó cho Angular để đánh dấu (stamp out) một <li> trên một hero trong heroes list
+- *ngIf là một điều kiện; nó bao gồm HeroDetail component chỉ khi một hero có tồn tại
+
+Attribute directives
+
+Attribute directives thay thế hiển thị hoặc hạnh vi của một element tồn tại. trong templates chúng giống thuộc tính HTML thông , thường, (kể từ bây h/do đó) hence the name
+
+ngModel directive khai báo two-way data-binding, là một ví dụ của một directive attribute. ngModel xác định hành vi của một element tồn tại (thông thường một <input>) bằng cách setting hiển thị dữ liệu của nó và phản hồi để thay đổi events.
+
+src/app/hero-detail.component.html(ngModel)
+<input [(ngModel)]="hero.name">
+
+Angular có thêm directives pre-define, nó hoặc thay thế layout( ví dụ như ngSwitch) hoặc chính sửa diện mạo (aspects) của DOM (ngStyle, ngClass).
+
+Bạn có thể viết directive của chính bạn. Components như HeroListComponent là một loại của custom directive. Bạn có thể tạo cấu trúc custom và thuộc tính directives

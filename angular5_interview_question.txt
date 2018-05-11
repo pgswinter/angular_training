@@ -1,0 +1,240 @@
+1. Angular 5 là gì?
+
+Là một framework để xây dựng ứng dụng trong HTML hoặc = JS hoặc một ngôn ngữ như TypeScripts rồi compiles thành JS. Nó phù hợp nhất để phát triển Single Page Application (SPA)
+
+2. Sao chọn Angular?
+
+1 - Cảm nhận người dùng giống với Desktop App
+2 - Năng suất và tiện dùng (Productivity and Tooling)
+3 - Hiệu suất cao (Performance)
+4 - Community (khả năng kết nối)
+5 - Đầy đủ tính năng Framework: Validation, Routing, DI ...
+6 - Nền tảng cho Targeting Native Mobile, không chỉ Web Browsers
+7 - TypeScript
+	+ Angular 2 được viết in TypeScript, một superset của JS để triển khai (implement) nhiều tính năng của ES6
+8 - Modular
+	+ Kể từ bây giờ (hence) cấu trúc Angular thông thoáng và rõ ràng (clean and clear)
+9 - Unit Testing
+	+ Dễ dàng Unit Testing và maintain code
+
+3. Angular 5 có gì mới?
+
+Một đống tính năng mới, hiệu suất cải thiện và rất nhiều bugs được sửa cũng như một số bất ngời đến những người yêu quý Angular:
+
+- Tạo AOT (Ahead-of-Time) default: AOT là trình biên dịch chuyển Angular HTML và TypeScript code hiệu quả hơn (into efficient) JS code trong khi build phase trước khi browser downloads và chạy code
+- Watch mode
+- Kiểm tra loại trong templates
+- metadata linh hoạt hơn
+- Loại bỏ *.ngfactory.ts files
+- Thông báo lỗi tốt hơn
+- Cập nhật mượt hơn
+- Tree-Shakeable components
+- Hybrid Upgrade Application
+- Cải thiện hiệu suất
+
+4. Angular 4 có gì mới?
+
+Được tăng cường và cải thiên (enhancement + improvement). Xem (consider) các tăng cường dưới đây:
+
+- Nhỏ hơn nhanh hơn
+- Giảm kích cỡ View Engine
+- Gói Animation
+- Cải thiện NgIf và ngFor 
+- Template
+- NgIf với Else
+- Sử dụng AS keyword
+- Pipes
+- HTTP Request Simplified
+- App Test Simplified
+- Giới thiệu Meta Tags
+- Thêm Forms Validates Attributes
+- Thêm Compare Select Options
+- Tăng cường trong Router
+- Thêm Optional Parameter
+- Cải thiện Internationlization
+
+5. Angular CLI
+
+là một tool để khởi tạo, phát triển, dựng sườn (scaffold) và bảo trì ứng dụng Angular.
+
+6. Bootstrapping trong Angular
+
+main.ts là đầu vào ứng dụng của bạn, biên dịch app với just-in-time và bootstrap ứng dụng. The Bootstrap là root AppComponent để Angular tạo thêm vào "index.html" host web page. Quy trình bootstrapping tạo các components listed trong mảng bootstrap và thêm vào mỗi một cái bên trong DOM.
+
+bootstrapping xử lý môi trường thực thi, digs (đào/tạo) tại root AppComponent ra của mảng module's bootstrap, tạo một đối tượng (instance) của component và thêm nó vào trong element tà được xác định bởi component's selector.
+
+7. Kiến trúc tổng quan của Angular:
+
+Module Component{}
+Module Service{}
+Module value{}
+Module Fn
+
+Injector: Services
+
+|
+
+Template -> Component: Property Binding
+Component -> Template: Event Binding
+
+Metadata
+
+|
+
+Metadata
+Directive{}
+
+Modules
+
+- Angular apps là modular in nature
+- Angular apps không có gì ngoài collections of individual modules.
+- Angular có sở hữu modularity chính nó gọi là NgModules
+- Mỗi Angular app có ít nhất 1 NgModules class, the root module, thông thường được đặt tên. AppModule.
+- Một NgModule, có một root hoặc feature, là một class với một @NgModule decorator
+
+Components
+
+- Một component controls là một patch của screen gọi là views.
+- Bạn định nghĩa một logic component's app - cái nó hỗ trợ view - bên trong class.
+The class tương tác với view thông qua một API của những thuộc tính hoặc methods.
+- Angular tạo, cập nhật và hủy components như user moves thông qua app
+- Ít nhát 1 component nên được gọi là Root Component(app.component.ts)
+
+Metadata
+
+- Components có @component decorator, chứ contains selector, template, templateUrl, style, styleUrls, providers.
+- selector: CSS selector nói cho Angular để tạo và thêm vào một đối tượng của component này, chỗ nó tìm một <hero-list> tag trong parent HTML. Lấy ví dụ, nếu một app's HTML chứa <hero-list></hero-list> thì Angular thên một đối tượng của view HeroListComponent giữa những tags đó.
+- templateUrl: địa chỉ module-relative của template components's HTML này , đã chỉ ra ở trên.
+- providers: một mảng của dependency injecttion provider cho servicesn, cái component yêu cầu.
+
+Templates
+
+- Bạn định nghĩa một component's view cùng với template của nó (its companion template). Một template là một form của HTML để nói cho Angular làm sao để xuất component.
+- Một template giống như HTML bình thường
+
+Data binding
+
+Angular hỗ trợ data binding, một cơ chế cho các coordinating parts của 1 template với các phần của 1 component. Thêm binding markup đến template để nói Angular làm sao để kết nối cả 2 phần.
+
+Directives
+
+Angular template là dynamic. Khi Angular xuất chúng, nó chuyển đổi DOM thông qua các hướng dẫn bởi directives.
+
+Một directives là một class với @Directive decorator.
+
+Services
+
+Một class chứa Business Logic.
+
+8. Angular 5 generate Component, Directive, Pipe, Service, Class và Module như thế nào?
+
+Khung sườn					Sử dụng
+
+Component 					ng g component my-new-component
+Directives 					ng g directive my-new-directive
+Pipe 						ng g pipe my-new-pipe
+Service 					ng g service my-new-service
+Class 						ng g class my-new-class
+Guard						ng g guard my-new-guard
+Interface 					ng g interface my-new-interface
+Enum 						ng g enum my-new-enum
+Module 						ng g module my-module
+
+9. Angular compiler là gì? Tại sao chúng ta cần trình biên dịch trong Angular?
+
+Angular compiler chuyển ứng dụng code TypeScript thành JS code + HTML trước khi browser download và chạy code
+
+Angular cung cấp 2 cách để biên dịch code app
+
+1. Just-in-time (JIT) biên dịch ứng dụng của chúng ta trong browser tại runtime (biên dịch trước khi chạy)
+
+2. Ahead-of-Time(AOT) biên dịch ứng dụng tại build-time(biên dịch trong khi chạy)
+
+10. Khác nhau giữa JIT và AOT
+
+JIT:
+1- Biên dịch ứng dụng tại runtime
+2- Biên dịch trước khi chạy
+3- Mỗi file được biên dịch riêng biệt
+4- Không cần build sau khi thay đổi ứng dụng app code và nó tự động phản ánh thay đổi trong browser page
+5- Độ an toàn cao (highly secure)
+6- Rất phù hợp cho local development
+
+AOT:
+1- AOT biên dịch ứng dụng tại build time
+2- Biên dịch trong khi chạy
+3- Biên dịch bởi machine của chính nó, thông qua command line (Faster)
+4- Độ an toàn cao
+5- Phù hợp build product
+
+11. Giải thích life cycle hooks của Angular 5 app:
+
+Angular 5 component/directive có life cycle events, quản lý bởi @angular/core. Nó tạo component, xuất nó, tạo và xuất con của nó, quy trình thay đổi khi thuộc tính data-bound thay đổi, và say đó hủy nó trước khi loại bỏ template của nó từ DOM. Angular cung cấp một bộ lifecycle hook ( những event đặc biệt ) cái có thể khai thác thành (tapped into) lifecycle này và thực hiện hoạt động khi yêu cầu. Hàm tạo thực thi trước đến tất cả lifecycle events. Mỗi interface có một phương thức single hook có tiền tố (prefix) với ng. Lấy ví dụ, ngOninit interface có Oninit method phải khai báo trong component.
+
+Một số events áp dụng cả hai component/directives trong khi một vài được đặc tả đến các components.
+
+- ngOnChanges: Phản hồi khi angular sets thuộc tính data-bound của nó, thuộc tính nhận dữ liệu đối tượng hiện tại và trước đó.
+
+- ngOnInit: Khai báo component/directive sau khi trigger ngOnChange đầu tiên. Điều thường xuyên (frequently) nhất dùng method lấy data từ template từ một service back-end.
+
+- ngDoCheck: Detect và act trên thay đổi xảy ra bên ngoài nội dung Angular. Nó được gọi khi mỗi thay đổi dectection chạy.
+
+- ngOnDestroy: Chỉ xóa trước khi Angular hủy directive/component. Không theo dõi quan sát và tách sự kiện xử lý để tránh rò rỉ bộ nhớ.
+
+Component-specific hooks:
+
+- ngAfterContentInit: Nội dung Component đã được khởi tạo
+- ngAfterContentChecked: Sau khi Angular kiểm tra bindings của nội dung ngoài, sau đó tham chiếu vào view của nó
+- ngAfterViewInit: Sau khi Angular tạo component's view
+- ngAfterViewChecked: Sau khi Angular kiểm tra bindings của component's view
+
+12. Lazy Loading là gì và làm sao kích hoạt
+
+Hầu hết enterprise app chứa modules khác nhau để đặc tả các trường hợp business cases. Đóng gói tất cả app code và loading sẽ có tác dụng hiệu suất lớn khi bắt đầu call. Lazy loading kích hoạt load chỉ module user đang tương tác và giữ phần còn lại được load tại runtime theo yêu cầu.
+
+Lazy loading tăng tốc ứng dụng load time bằng cách chia code thành nhiều gói và loading chúng theo yêu cầu
+
+Mỗi ứng dụng Angular phải có một module gọi AppModule. Code nên được chia thành nhiều phần nhỏ khác nhau và được load theo yêu cầu.
+
+Mỗi Angular phải có một module chính gọi AppModule. Code nên được chia theo nhiều phần khác nhau dựa trên business case
+
+Ví dụ Plunkr:
+
+1. Chúng tôi không yêu cầu import hoặc skhai báo lazy module ở root module
+2. Thêm route đến top-level routing (app.routing.ts) và set loadChildren. loadChildren lấy một absolute path từ root folder theo bởi #{ModuleName}. RouteModule.forRoot() lấy mảng routes và cấu hình router.
+3. Import đặc tả module routing trong child module
+4. Trong child module routing, đặc tả một path như một empty string '', the empty path. RouterModule.forChild lần nữa lấy routes array cho child module component để load và cấu hình router cho child.
+5. Sau đó, export const routing: ModuleWithProviders = RouterModule.forChild(routes);
+
+13. Khác nhau giữa Observables và Promises?
+
+Promise là single event khi một hoạt động async hoàn thành hoặc fails.
+
+An Observable is like a Stream và cho phép mang zero hoặc nhiều events hơn tại nơi callback gọi mỗi event. Thông thường, Observable được ưa thích hơn (preferred) Promise vì nó cung cấp tính năng Promise và nhiều hơn. Với Observable, nó không thành vấn đề nếu bạn muốn xử lý 0, 1, hay nhiều events, Bạn có thể sử dụng cùng API trong mỗi trường hợp. Observable cũng có thuận lợi (advantage) hơn Promise để cancelable. Nếu kết quả của 1 HTTP request đến server hoặc một số hoạt động async không cần thiết, the Subsciption của một Observable cho phép cancel the the subciption. Trong khi một Promise sẽ gọi thành công hoặc không khi bạn không cần thông báo hoặc kết quả nó cung cấp thêm nữa. Observale cung cấp operators như map, forEach, reduce, ... giống như một array. Ở đây cũng có powerful operator như retry(), hoặc replay() ... thường khá tiện dụng (That are often quite handy)
+
+Promise vs Observables:
+
+Promise:
+1- trả về single value
+2- không cancellable
+Observables:
+1- làm việc với nhiều values over time
+2- cancellable
+3- hỗ trợ map, filter, reduce, and similar perators
+4- proposed featured for ES 2016
+5- sử dugnj Reactive Extenstion (RxJS)
+6- một mảng sở hữu items đạt tới (arrive) async over time
+
+14. Event Emitters và nó work như nào trong Angular 5 (A5)?
+
+A5 không có bi-directional digest cycle, như A1. Trong A5, bất cứ thay đổi nào xảy ra trong component luôn luôn được nhân (propagated ) lên từ component hiện tại đến tất cả con của nó trong phân tầng. Nếu thay đổi từ 1 component cần phản ánh đến bất kì parent component nào của nó trong phân tầng. Chúng ta có thể emit event bằng cách sử dụng Event Emitter API
+
+Ngắn gọn, EventEmitter là class được định nghĩa trong @angular/core module, cái có thể dùng bằng components và directives để emit custiom events.
+
+@output() somethingChanged = new EventEmitter();
+
+Chúng ta sử dụng omethingChanged.emit(value) để emit event. Điều này hoàn thành trong setter khi value bị thay đổi trong class.
+
+Event này có thể được subscribed bởi bất kỳ component của module bào bằng cách dùng subscribe method:
+
+myObj.somethingChanged.subscribe(val) => this.myLocalMethod(val));

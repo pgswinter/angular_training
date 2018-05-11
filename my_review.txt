@@ -1,0 +1,28 @@
+A5 có gì
+1- Module
+2- Component
+3- Service + Dependency Injection
+4- Data binding
+5- Pipes
+6- Metadata
+7- Directives
+8- Templates
+
+Modules có gì
+
+Module có:
+
+import/export/declaration:component,directives,pipes/provider: services/bootrap
+
+import {NgModule} from "@angular/core"
+import {BrowserModule} from "@angular/playform-browser"
+
+@NgModules{
+	import: [BrowserModule],
+	declaration: [AppComponent],
+	export: [AppComponent],
+	provider: [Logger],
+	bootstrap: [AppComponent]
+}
+
+JS 
